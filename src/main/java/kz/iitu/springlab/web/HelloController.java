@@ -26,7 +26,7 @@ public class HelloController {
                 Runtime.getRuntime().availableProcessors());
     }
 
-    // ==== Индивидуальное задание, вариант 6 ====
+    // вариант 6
     @GetMapping("/stats")
     public Map<String, Object> stats(@RequestParam(defaultValue = "0") String numbers) {
         String[] parts = numbers.split(",");
