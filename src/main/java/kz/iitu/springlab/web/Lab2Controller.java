@@ -1,0 +1,32 @@
+package kz.iitu.springlab.web;
+
+import kz.iitu.springlab.notify.NotificationService;
+import kz.iitu.springlab.lifecycle.LifecycleDemo;
+import org.springframework.web.bind.annotation.*;
+import java.util.*;
+
+@RestController
+@RequestMapping("/api/lab2")
+public class Lab2Controller {
+    private final NotificationService notifications;
+    private final LifecycleDemo lifecycle;   // ← новое поле
+
+    public Lab2Controller(NotificationService notifications,
+                          LifecycleDemo lifecycle) {   // ← новый параметр конструктора
+        this.notifications = notifications;
+        this.lifecycle = lifecycle;
+    }
+
+    @GetMapping("/notify")
+    public Map<String, Object> notify(@RequestParam(defaultValue = "Hello") String text) {
+        return Map.of("primary", notifications.viaPrimary(text),
+                "console", notifications.viaConsole(text),
+                "all", notifications.viaAll(text),
+                "beanNames", notifications.names());
+    }
+
+    @GetMapping("/lifecycle")   // ← новый метод
+    public List<String> lifecycle() {
+        return lifecycle.events();
+    }
+}
